@@ -1,0 +1,512 @@
+/* Fuente importada de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ================================================= */
+/* Estilos para la Vista de Lista        */
+/* ================================================= */
+
+/* Fondo general de la página (original) */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f3e9; /* Tono de pergamino/papel */
+    background-image:
+        /* Efecto de partículas / destellos animados */
+        radial-gradient(circle at 10% 20%, rgba(109, 91, 74, 0.1) 0%, transparent 15%),
+        radial-gradient(circle at 90% 80%, rgba(109, 91, 74, 0.1) 0%, transparent 15%),
+        radial-gradient(circle at 30% 60%, rgba(109, 91, 74, 0.08) 0%, transparent 10%),
+        /* Cuadrícula de cuaderno */
+        repeating-linear-gradient(to right, transparent, transparent 1px, rgba(0, 0, 0, 0.05) 1px, rgba(0, 0, 0, 0.05) 21px),
+        repeating-linear-gradient(to bottom, #d6d3c8, #d6d3c8 1px, transparent 1px, transparent 25px);
+    background-size: 800% 800%, 800% 800%, 800% 800%, 20px 20px, 20px 20px; /* Tamaños para las capas de fondo */
+    animation: moveBackground 30s linear infinite alternate; /* Animación para el fondo */
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+    100% { background-position: 100% 100%, 100% 100%, 100% 100%, 0% 0%, 0% 0%; }
+}
+
+/* Contenedor principal que simula un cuaderno (ahora con un fondo animado de colores pastel) */
+.card.journal-container {
+    border: 3px solid #6d5b4a;
+    border-radius: 15px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    transform: rotateZ(-2deg);
+    transition: transform 0.5s ease;
+    padding: 2.5rem !important;
+    perspective: 1000px;
+    position: relative;
+    z-index: 2; /* <-- ¡CAMBIO IMPORTANTE AQUÍ! */
+
+    /* Degradado en tonos pastel para el fondo del contenedor */
+    background-image: linear-gradient(
+        135deg,
+        #fce1e4 0%, /* Rosa pastel */
+        #cbe1ff 25%, /* Azul cielo pastel */
+        #d8fce1 50%, /* Verde menta pastel */
+        #fff5c5 75%, /* Amarillo pastel */
+        #fce1e4 100% /* Rosa pastel */
+    );
+    background-size: 400% 400%; /* Para que el degradado sea más grande y se pueda animar */
+    animation: colorChangeFast 10s ease-in-out infinite; /* Animación más rápida */
+}
+
+@keyframes colorChangeFast {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Efecto de cambio de color al pasar el mouse */
+.card.journal-container:hover {
+    transform: rotateZ(0deg);
+    box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Título con estilo de escritura a mano */
+.text-primary {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #4a3e2b;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    animation: none;
+}
+
+/* Estilo para el icono del libro */
+.text-center h1 span:first-child {
+    color: #4a3e2b;
+    font-size: 3.5rem;
+    margin-right: 10px;
+    animation: none;
+}
+
+/* Botones de acción general */
+.btn {
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón "Nuevo Libro" con efecto de pulso y cambio de color */
+.btn-dark {
+    background-color: #6d5b4a;
+    border-color: #6d5b4a;
+    color: #fff;
+    background-image: linear-gradient(45deg, #6d5b4a 0%, #a08d7c 50%, #6d5b4a 100%);
+    background-size: 200% auto;
+    animation: pulse 2s infinite ease-in-out, gradient-animation 4s linear infinite, float 3s ease-in-out infinite;
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(109, 91, 74, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(109, 91, 74, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(109, 91, 74, 0); }
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Lista de entradas del diario */
+.journal-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 30px;
+}
+
+/* Cada entrada del diario como un libro 3D (más pequeño) */
+.journal-entry {
+    width: 150px;
+    height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra inicial más suave */
+    border-radius: 8px; /* Bordes más redondeados */
+    margin-bottom: 30px;
+    transform: rotateY(-5deg) rotateX(2deg) translateZ(0px); /* Inclinación inicial más sutil */
+    overflow: hidden; /* Importante para el efecto de páginas */
+}
+
+.journal-entry:hover {
+    transform: rotateY(0deg) rotateX(0deg) translateZ(30px) translateY(-10px); /* Se levanta y se endereza */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Sombra más grande al pasar el ratón */
+    z-index: 2; /* Asegura que el libro esté encima de los demás al interactuar */
+}
+
+/* Pseudo-elemento para el lomo del libro (más estrecho) */
+.journal-entry::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px; /* Ancho del lomo */
+    height: 100%;
+    background-color: #6d5b4a; /* Color del lomo */
+    transform-origin: left;
+    transform: rotateY(90deg) translateX(-7.5px);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.4);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave */
+}
+
+.journal-entry:hover::before {
+    transform: rotateY(90deg) translateX(-10px) translateZ(5px); /* El lomo se mueve al "abrirse" */
+}
+
+/* Pseudo-elemento para las páginas del libro (efecto 3D) */
+.journal-entry::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fcf6e4; /* Color de las páginas */
+    transform-origin: left;
+    transform: rotateY(0deg) translateZ(-10px); /* Posición inicial de las páginas */
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave */
+}
+
+.journal-entry:hover::after {
+    transform: rotateY(-10deg) translateZ(-15px); /* Las páginas se "abren" un poco */
+}
+
+/* Estilo de la "portada" del libro */
+.entry-content {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px; /* Coincide con el borde del libro */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden; /* Para contener el brillo */
+}
+
+/* Efecto de brillo en la portada al pasar el mouse */
+.entry-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%; /* Empieza fuera del libro */
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+    transform: skewX(-20deg);
+    transition: transform 0.7s ease-in-out;
+    pointer-events: none; /* Asegura que no interfiera con los clicks */
+}
+
+.journal-entry:hover .entry-content::before {
+    transform: translateX(100%) skewX(-20deg); /* El brillo se desliza al pasar el mouse */
+}
+
+/* Colores diferentes para cada libro */
+.journal-entry:nth-child(5n+1) .entry-content { background-color: #fce1a9; }
+.journal-entry:nth-child(5n+2) .entry-content { background-color: #e3a9fc; }
+.journal-entry:nth-child(5n+3) .entry-content { background-color: #a9fcf7; }
+.journal-entry:nth-child(5n+4) .entry-content { background-color: #a9fca9; }
+.journal-entry:nth-child(5n+5) .entry-content { background-color: #fca9c2; }
+
+
+/* Contenido del libro */
+.journal-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: #4a3e2b;
+    font-weight: 700;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.journal-author {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    color: #887867;
+    font-style: italic;
+    margin-top: auto;
+}
+
+/* Botones de acción (visibles al pasar el mouse) */
+.entry-actions {
+    position: absolute;
+    bottom: 10px; 
+    right: 10px; /* Más a la derecha */
+    display: flex;
+    gap: 8px; /* Más espacio entre botones */
+    opacity: 0;
+    transform: translateY(10px); /* Empiezan un poco abajo */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 3; /* Asegura que estén por encima de todo */
+}
+
+.journal-entry:hover .entry-actions {
+    opacity: 1;
+    transform: translateY(0); /* Se deslizan a su posición final */
+}
+
+/* Botón "Editar" más grande y con mejor hover */
+.btn-edit {
+    background-color: transparent;
+    border: 1px solid #4a3e2b;
+    color: #4a3e2b;
+    padding: 8px 12px; /* Más grande */
+    border-radius: 50%;
+    font-size: 1rem; /* Más grande */
+    line-height: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit:hover {
+    background-color: #f0ad4e;
+    color: white;
+    transform: rotate(360deg) scale(1.2); /* Más pronunciado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón "Eliminar" más grande y con mejor hover */
+.btn-delete {
+    background-color: transparent;
+    border: 1px solid #4a3e2b;
+    color: #4a3e2b;
+    padding: 8px 12px; /* Más grande */
+    border-radius: 50%;
+    font-size: 1rem; /* Más grande */
+    line-height: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-delete:hover {
+    background-color: #d9534f;
+    color: white;
+    animation: vibrate 0.5s linear infinite; /* Mantiene la animación de vibración */
+    transform: scale(1.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes vibrate {
+    0% { transform: translate(1px, 1px) scale(1.2); }
+    20% { transform: translate(-1px, -2px) scale(1.2); }
+    40% { transform: translate(-3px, 0px) scale(1.2); }
+    60% { transform: translate(3px, 2px) scale(1.2); }
+    80% { transform: translate(-1px, -1px) scale(1.2); }
+    100% { transform: translate(1px, 1px) scale(1.2); }
+}
+
+.no-entries-message {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5em;
+    color: #4a3e2b;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    transform: rotateZ(1deg);
+    transition: transform 0.3s ease;
+    width: 80%;
+    max-width: 500px;
+    margin: 50px auto;
+}
+
+.no-entries-message:hover {
+    transform: rotateZ(0deg);
+}
+
+.animate__animated {
+    animation-duration: 1.5s;
+}
+
+/* ================================================= */
+/* Estilos para la Vista del Formulario   */
+/* ================================================= */
+
+/* Contenedor principal del formulario */
+.form-card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 3.5rem;
+    position: relative;
+    overflow: hidden;
+    transform: perspective(1000px) rotateX(2deg);
+    transition: all 0.5s ease-in-out;
+}
+
+.form-card:hover {
+    transform: perspective(1000px) rotateX(0deg) scale(1.01);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Título del formulario */
+.form-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #4a5568;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.form-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 80px;
+    height: 4px;
+    background-color: #6c757d;
+    border-radius: 2px;
+}
+
+.emoji-icon {
+    font-size: 1.2em;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Etiquetas de los campos */
+.form-label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Campos de entrada de texto e input de fecha */
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    color: #495057;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-group input:focus, .form-group select:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilo para el input de fecha */
+input[type="date"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23495057" class="bi bi-calendar-date" viewBox="0 0 16 16"><path d="M6.44 10.99A.5.5 0 0 1 7 10.5h1V8h1.5a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10a.5.5 0 0 1-.5-.5z"/><path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/><path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM4 1h8a1 1 0 0 1 1 1v1H3V2a1 1 0 0 1 1-1zM3 4h10v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px;
+    padding-right: 40px;
+}
+
+/* Botones de acción */
+.btn-save, .btn-cancel {
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-save {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    animation-duration: 2s;
+}
+
+.btn-save:hover {
+    background-color: #218838;
+    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+    box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ================================================= */
+/* Animación para la "lluvia de libros"    */
+/* ================================================= */
+
+.falling-book {
+    position: absolute;
+    top: -100px; /* Inician fuera de la pantalla */
+    width: 60px;
+    height: 90px;
+    background-color: #d2b48c; 
+    border: 1px solid #8b4513;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transform: rotate(0deg);
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    z-index: 1; 
+}
+
+@keyframes fall {
+    0% {
+        top: -100px;
+        transform: rotate(0deg) scale(1);
+    }
+    100% {
+        top: 100vh;
+        transform: rotate(360deg) scale(0.8);
+    }
+}
