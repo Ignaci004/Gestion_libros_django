@@ -11,7 +11,7 @@ class Libro(models.Model):
     autor = models.CharField(max_length=200)
     fecha_publicacion = models.DateField(validators=[validar_fecha_no_futura])
     genero = models.CharField(max_length=100)
-
+#nose
     def __str__(self):
         return self.titulo
 
