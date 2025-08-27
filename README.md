@@ -1,6 +1,6 @@
 <h1 align="center">
   <span style="background: linear-gradient(to right, #1e3c72, #2a5298); -webkit-background-clip: text; color: transparent;">
-    📚💻 GRUPO X – GESTIÓN DE LIBROS 💻📚
+    📚💻 GRUPO 1 – GESTIÓN DE LIBROS 💻📚
   </span>
 </h1>
 
@@ -13,19 +13,19 @@ Aplicar **Scrum, XP, GitHub y desarrollo web colaborativo** para entregar un **C
 
 | Rol            | Integrante         | Responsabilidad |
 |----------------|-------------------|-----------------|
-| 🧑‍💼 Scrum Master | **[Nombre SM]** | Facilitar procesos |
-| 👩‍💼 Product Owner | **[Nombre PO]** | Visión del producto |
-| 👨‍💻 Dev 1        | **[Nombre Dev1]** | HTML + CSS (templates y estilos) |
-| 👨‍💻 Dev 2        | **[Nombre Dev2]** | Backend (Models, Views, CRUD) |
-| 👨‍💻 Dev 3        | **[Nombre Dev3]** | Rutas (urls.py) + Tests (TDD básico) |
+| 🧑‍💼 Scrum Master | **José Hernández** | Facilitar procesos y asegurar prácticas ágiles |
+| 👩‍💼 Product Owner | **Yasumi Pastor** | Definir la visión del producto y priorizar requerimientos |
+| 👩‍💻 Dev 1        | **Alexa Montenegro** | HTML + CSS (templates, estructura visual y estilos en `style.css`) |
+| 👨‍💻 Dev 2        | **Jack Cruz** | Backend (Models, Views, lógica CRUD en Django, validaciones y mensajes) |
+| 👨‍💻 Dev 3        | **Alejandro Cerdán** | Rutas (`urls.py`) + Pruebas unitarias (`tests.py`, TDD básico) |
 
 ---
 
 ## 📊 Metodología Scrum  
 
 - 📅 **Sprint:** 5 días  
-- 📝 **Eventos:** Sprint Planning, ≥4 Daily, Review y Retrospectiva  
-- 📌 **Artefactos:** Sprint Goal, Sprint Backlog (Trello), Incremento visible (la app CRUD)  
+- 📝 **Eventos:** Sprint Planning, ≥4 Daily Meetings, Sprint Review y Retrospectiva  
+- 📌 **Artefactos:** Sprint Goal, Sprint Backlog (Trello), Incremento visible (la app CRUD funcionando)  
 
 <p align="center">
   <img src="https://media.giphy.com/media/dWesBcTLavkZuG35MI/giphy.gif" width="400" alt="Scrum Animation">
@@ -47,14 +47,14 @@ Aplicar **Scrum, XP, GitHub y desarrollo web colaborativo** para entregar un **C
 
 ## 📚 Proyecto Asignado  
 
-**Grupo X – Gestión de Libros**  
-- **Campos obligatorios:**  
+**Grupo 1 – Gestión de Libros**  
+- **Campos obligatorios del modelo `Libro`:**  
   - Título  
   - Autor  
   - Género  
   - Fecha de publicación  
 
-- **Objetivo técnico:** Construir un sistema donde el usuario pueda **registrar, visualizar, actualizar y eliminar libros** de forma dinámica y persistente.  
+- **Objetivo técnico:** Construir un sistema donde el usuario pueda **registrar, visualizar, actualizar y eliminar libros** de forma dinámica y persistente en la base de datos.  
 
 ---
 
@@ -92,4 +92,5 @@ Aplicar **Scrum, XP, GitHub y desarrollo web colaborativo** para entregar un **C
 <p align="center">
   <img src="https://media.giphy.com/media/ZVik7pBtu9dNS/giphy.gif" width="450" alt="Video Demo Animation">
 </p>
+
 
