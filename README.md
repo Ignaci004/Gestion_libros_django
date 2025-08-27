@@ -1,4 +1,5 @@
 # Gestión de Libros - Django
 
-![Django CI](https://github.com/Ignaci004/Gestion_libros_django/actions/workflows/ci.yml/badge.svg)
+![Django CI](https://github.com/joseignacio27/gestion-libros/actions/workflows/django.yml/badge.svg)
+
 
