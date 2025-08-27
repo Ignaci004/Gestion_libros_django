@@ -14,7 +14,7 @@ Aplicar **Scrum, XP, GitHub y desarrollo web colaborativo** para entregar un **C
 | Rol            | Integrante         | Responsabilidad |
 |----------------|-------------------|-----------------|
 | 🧑‍💼 Scrum Master | **José Hernández** | Facilitar procesos y asegurar prácticas ágiles |
-| 👩‍💼 Product Owner | **Yasumi Pastor** | Definir la visión del producto y priorizar requerimientos |
+| 👩‍💼 Product Owner | **Yasumy Pastor** | Definir la visión del producto y priorizar requerimientos |
 | 👩‍💻 Dev 1        | **Alexa Montenegro** | HTML + CSS (templates, estructura visual y estilos en `style.css`) |
 | 👨‍💻 Dev 2        | **Jack Cruz** | Backend (Models, Views, lógica CRUD en Django, validaciones y mensajes) |
 | 👨‍💻 Dev 3        | **Alejandro Cerdán** | Rutas (`urls.py`) + Pruebas unitarias (`tests.py`, TDD básico) |
