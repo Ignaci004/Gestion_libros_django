@@ -30,17 +30,16 @@ body {
     100% { background-position: 100% 100%, 100% 100%, 100% 100%, 0% 0%, 0% 0%; }
 }
 
-/* Contenedor principal que simula un cuaderno (ahora con un fondo animado de colores pastel) */
+/* Contenedor principal que simula un cuaderno */
 .card.journal-container {
     border: 3px solid #6d5b4a;
     border-radius: 15px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
-    transform: rotateZ(-2deg);
     transition: transform 0.5s ease;
     padding: 2.5rem !important;
     perspective: 1000px;
     position: relative;
-    z-index: 2; /* <-- ¡CAMBIO IMPORTANTE AQUÍ! */
+    z-index: 2;
 
     /* Degradado en tonos pastel para el fondo del contenedor */
     background-image: linear-gradient(
@@ -52,7 +51,16 @@ body {
         #fce1e4 100% /* Rosa pastel */
     );
     background-size: 400% 400%; /* Para que el degradado sea más grande y se pueda animar */
-    animation: colorChangeFast 10s ease-in-out infinite; /* Animación más rápida */
+    animation: colorChangeFast 10s ease-in-out infinite, subtleRotate 10s ease-in-out infinite alternate; /* Añadida animación subtleRotate */
+}
+
+/* Nueva animación para el contenedor principal */
+@keyframes subtleRotate {
+    0% { transform: rotateZ(0deg); }
+    25% { transform: rotateZ(0.5deg); }
+    50% { transform: rotateZ(-0.5deg); }
+    75% { transform: rotateZ(0.5deg); }
+    100% { transform: rotateZ(0deg); }
 }
 
 @keyframes colorChangeFast {
@@ -63,7 +71,7 @@ body {
 
 /* Efecto de cambio de color al pasar el mouse */
 .card.journal-container:hover {
-    transform: rotateZ(0deg);
+    transform: rotateZ(0deg); /* Asegura que se endereza al pasar el mouse */
     box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -145,23 +153,34 @@ body {
 
 /* Cada entrada del diario como un libro 3D (más pequeño) */
 .journal-entry {
-    width: 150px;
-    height: 220px;
+    width: 180px; /* Tamaño un poco más grande para el efecto */
+    height: 250px;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.8s ease-in-out;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Sombra inicial más suave */
-    border-radius: 8px; /* Bordes más redondeados */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
     margin-bottom: 30px;
-    transform: rotateY(-5deg) rotateX(2deg) translateZ(0px); /* Inclinación inicial más sutil */
-    overflow: hidden; /* Importante para el efecto de páginas */
+    transform: rotateY(-5deg) rotateX(2deg); /* Inclinación inicial */
 }
 
 .journal-entry:hover {
-    transform: rotateY(0deg) rotateX(0deg) translateZ(30px) translateY(-10px); /* Se levanta y se endereza */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* Sombra más grande al pasar el ratón */
-    z-index: 2; /* Asegura que el libro esté encima de los demás al interactuar */
+    transform: rotateY(15deg) rotateX(0deg); /* Se abre ligeramente al pasar el mouse */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor frontal (la portada) */
+.entry-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: left;
+    transition: transform 0.8s ease-in-out;
+    backface-visibility: hidden;
+    z-index: 2;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Pseudo-elemento para el lomo del libro (más estrecho) */
@@ -170,46 +189,67 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 15px; /* Ancho del lomo */
+    width: 20px; /* Ancho del lomo */
     height: 100%;
-    background-color: #6d5b4a; /* Color del lomo */
+    background-color: #6d5b4a;
     transform-origin: left;
-    transform: rotateY(90deg) translateX(-7.5px);
+    transform: rotateY(90deg) translateX(-10px);
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.4);
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave */
+    z-index: 3;
 }
 
-.journal-entry:hover::before {
-    transform: rotateY(90deg) translateX(-10px) translateZ(5px); /* El lomo se mueve al "abrirse" */
+/* Efecto al pasar el mouse sobre el lomo */
+.journal-entry:hover .entry-front {
+    transform: rotateY(-180deg); /* La portada gira 180 grados */
 }
 
-/* Pseudo-elemento para las páginas del libro (efecto 3D) */
-.journal-entry::after {
-    content: '';
+/* Contenedor de la página interior */
+.inner-page {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
     background-color: #fcf6e4; /* Color de las páginas */
-    transform-origin: left;
-    transform: rotateY(0deg) translateZ(-10px); /* Posición inicial de las páginas */
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave */
+    transform: rotateY(0deg) translateZ(1px); /* Posición inicial detrás de la portada */
+    transition: transform 0.8s ease-in-out;
+    backface-visibility: hidden;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+    
+    /* Estilo de fondo con líneas para simular una hoja de cuaderno */
+    background-image: 
+        linear-gradient(to bottom, transparent 95%, rgba(0, 0, 0, 0.1) 95%),
+        repeating-linear-gradient(#fcf6e4, #fcf6e4 24px, #e8dcc8 25px, #e8dcc8 25px);
+    background-size: 100% 25px; /* Altura de la línea y el espacio */
+    background-repeat: repeat-y;
+    background-position: center;
+    
+    position: relative; /* para posicionar los botones dentro */
 }
 
-.journal-entry:hover::after {
-    transform: rotateY(-10deg) translateZ(-15px); /* Las páginas se "abren" un poco */
+.journal-entry:hover .inner-page {
+    transform: rotateY(0deg) translateZ(10px); /* Se mueve hacia adelante para mostrarse */
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* Estilo de la "portada" del libro */
 .entry-content {
     height: 100%;
     width: 100%;
-    padding: 10px;
+    padding: 15px; /* Padding ajustado para el nuevo tamaño */
     border-radius: 8px; /* Coincide con el borde del libro */
     display: flex;
     flex-direction: column;
@@ -219,6 +259,17 @@ body {
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     overflow: hidden; /* Para contener el brillo */
+    
+    /* === NUEVAS MEJORAS PARA EL FONDO DEL LIBRO === */
+    background-image:
+        /* Patrón de líneas tenue */
+        repeating-linear-gradient(to bottom, transparent, transparent 24px, rgba(0, 0, 0, 0.03) 25px, rgba(0, 0, 0, 0.03) 25px),
+        /* Fondo de textura sutil de papel */
+        linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(240, 240, 240, 0.6) 100%);
+    background-size: 100% 25px, 100% 100%;
+    background-repeat: repeat-y, no-repeat;
+    background-position: center, center;
+    /* ============================================== */
 }
 
 /* Efecto de brillo en la portada al pasar el mouse */
@@ -229,7 +280,8 @@ body {
     left: -75%; /* Empieza fuera del libro */
     width: 50%;
     height: 100%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+    /* Ajustado para que el brillo sea más visible sobre el nuevo fondo */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 100%);
     transform: skewX(-20deg);
     transition: transform 0.7s ease-in-out;
     pointer-events: none; /* Asegura que no interfiera con los clicks */
@@ -240,11 +292,12 @@ body {
 }
 
 /* Colores diferentes para cada libro */
-.journal-entry:nth-child(5n+1) .entry-content { background-color: #fce1a9; }
-.journal-entry:nth-child(5n+2) .entry-content { background-color: #e3a9fc; }
-.journal-entry:nth-child(5n+3) .entry-content { background-color: #a9fcf7; }
-.journal-entry:nth-child(5n+4) .entry-content { background-color: #a9fca9; }
-.journal-entry:nth-child(5n+5) .entry-content { background-color: #fca9c2; }
+/* Estos colores ahora se mezclarán con la textura de fondo */
+.journal-entry:nth-child(5n+1) .entry-front { background-color: #fce1a9; } /* Naranja pastel */
+.journal-entry:nth-child(5n+2) .entry-front { background-color: #e3a9fc; } /* Lila pastel */
+.journal-entry:nth-child(5n+3) .entry-front { background-color: #a9fcf7; } /* Turquesa pastel */
+.journal-entry:nth-child(5n+4) .entry-front { background-color: #a9fca9; } /* Verde pastel */
+.journal-entry:nth-child(5n+5) .entry-front { background-color: #fca9c2; } /* Rosa pastel */
 
 
 /* Contenido del libro */
@@ -266,22 +319,17 @@ body {
     margin-top: auto;
 }
 
-/* Botones de acción (visibles al pasar el mouse) */
+/* Botones de acción ahora dentro del inner-page */
 .entry-actions {
     position: absolute;
-    bottom: 10px; 
-    right: 10px; /* Más a la derecha */
+    bottom: 15px; /* Ajustado para mejor posición */
+    right: 15px; /* Ajustado para mejor posición */
     display: flex;
-    gap: 8px; /* Más espacio entre botones */
-    opacity: 0;
-    transform: translateY(10px); /* Empiezan un poco abajo */
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 3; /* Asegura que estén por encima de todo */
-}
-
-.journal-entry:hover .entry-actions {
-    opacity: 1;
-    transform: translateY(0); /* Se deslizan a su posición final */
+    gap: 8px; 
+    opacity: 1; /* Siempre visible dentro de la página */
+    transform: translateY(0);
+    z-index: 2; 
+    pointer-events: auto; /* Asegura que se puedan clickear */
 }
 
 /* Botón "Editar" más grande y con mejor hover */
@@ -289,9 +337,9 @@ body {
     background-color: transparent;
     border: 1px solid #4a3e2b;
     color: #4a3e2b;
-    padding: 8px 12px; /* Más grande */
+    padding: 8px 12px; 
     border-radius: 50%;
-    font-size: 1rem; /* Más grande */
+    font-size: 1rem; 
     line-height: 1;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -300,7 +348,7 @@ body {
 .btn-edit:hover {
     background-color: #f0ad4e;
     color: white;
-    transform: rotate(360deg) scale(1.2); /* Más pronunciado */
+    transform: rotate(360deg) scale(1.2); 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -309,9 +357,9 @@ body {
     background-color: transparent;
     border: 1px solid #4a3e2b;
     color: #4a3e2b;
-    padding: 8px 12px; /* Más grande */
+    padding: 8px 12px; 
     border-radius: 50%;
-    font-size: 1rem; /* Más grande */
+    font-size: 1rem; 
     line-height: 1;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -320,7 +368,7 @@ body {
 .btn-delete:hover {
     background-color: #d9534f;
     color: white;
-    animation: vibrate 0.5s linear infinite; /* Mantiene la animación de vibración */
+    animation: vibrate 0.5s linear infinite; 
     transform: scale(1.2);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -358,7 +406,7 @@ body {
 }
 
 /* ================================================= */
-/* Estilos para la Vista del Formulario   */
+/* Estilos para la Vista del Formulario  */
 /* ================================================= */
 
 /* Contenedor principal del formulario */
@@ -455,13 +503,6 @@ input[type="date"] {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.btn-save {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    animation-duration: 2s;
-}
-
 .btn-save:hover {
     background-color: #218838;
     box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
@@ -481,7 +522,7 @@ input[type="date"] {
 }
 
 /* ================================================= */
-/* Animación para la "lluvia de libros"    */
+/* Animación para la "lluvia de libros y lápices" */
 /* ================================================= */
 
 .falling-book {
@@ -489,7 +530,7 @@ input[type="date"] {
     top: -100px; /* Inician fuera de la pantalla */
     width: 60px;
     height: 90px;
-    background-color: #d2b48c; 
+    background-color: #d2b48c;
     border: 1px solid #8b4513;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -497,7 +538,46 @@ input[type="date"] {
     animation-name: fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    z-index: 1; 
+    z-index: 1;
+}
+
+.falling-pencil {
+    position: absolute;
+    top: -100px; /* Inician fuera de la pantalla */
+    width: 12px; /* Un poco más ancho */
+    height: 120px;
+    background: linear-gradient(to right, #fca9c2 0%, #fca9c2 80%, #555 80%, #555 100%); /* Cuerpo rosa, punta de mina */
+    border-radius: 3px;
+    transform: rotate(0deg);
+    animation-name: fallPencil;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    z-index: 1;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+    /* Añadimos un pequeño detalle para el borrador y la férula */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 15px; /* Altura del borrador */
+        background-color: #fff5c5; /* Borrador amarillo pastel */
+        border-radius: 3px 3px 0 0;
+        box-shadow: inset 0 -2px 3px rgba(0,0,0,0.2);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 15px; /* Debajo del borrador */
+        left: 0;
+        width: 100%;
+        height: 5px; /* Altura de la férula metálica */
+        background-color: #b0c4de; /* Gris metálico */
+        box-shadow: inset 0 -1px 2px rgba(0,0,0,0.1);
+    }
 }
 
 @keyframes fall {
@@ -508,5 +588,16 @@ input[type="date"] {
     100% {
         top: 100vh;
         transform: rotate(360deg) scale(0.8);
+    }
+}
+
+@keyframes fallPencil {
+    0% {
+        top: -100px;
+        transform: rotate(0deg) scale(1);
+    }
+    100% {
+        top: 100vh;
+        transform: rotate(270deg) scale(0.9); /* Un poco más de rotación */
     }
 }
